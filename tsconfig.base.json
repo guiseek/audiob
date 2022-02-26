@@ -24,6 +24,9 @@
       ],
       "@audiob/web/shared/data-access/store": [
         "libs/web/shared/data-access/store/src/index.ts"
+      ],
+      "@audiob/web/shared/data-access/stream": [
+        "libs/web/shared/data-access/stream/src/index.ts"
       ]
     }
   },

@@ -7,6 +7,7 @@
     "web-home-data-access": "libs/web/home/data-access",
     "web-home-feature": "libs/web/home/feature",
     "web-shared-data-access-models": "libs/web/shared/data-access/models",
-    "web-shared-data-access-store": "libs/web/shared/data-access/store"
+    "web-shared-data-access-store": "libs/web/shared/data-access/store",
+    "web-shared-data-access-stream": "libs/web/shared/data-access/stream"
   }
 }

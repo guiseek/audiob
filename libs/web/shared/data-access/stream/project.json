@@ -1,0 +1,23 @@
+{
+  "root": "libs/web/shared/data-access/stream",
+  "sourceRoot": "libs/web/shared/data-access/stream/src",
+  "projectType": "library",
+  "targets": {
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["libs/web/shared/data-access/stream/**/*.ts"]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/web/shared/data-access/stream"],
+      "options": {
+        "jestConfig": "libs/web/shared/data-access/stream/jest.config.js",
+        "passWithNoTests": true
+      }
+    }
+  },
+  "tags": ["type:data-access", "scope:web", "domain:shared"]
+}

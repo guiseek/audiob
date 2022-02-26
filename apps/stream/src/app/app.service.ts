@@ -4,29 +4,38 @@ import { Injectable } from '@nestjs/common';
 @Injectable()
 export class AppService {
   getSongs(): Promise<Song[]> {
-    return Promise.resolve([
-      {
-        id: 1,
-        title: 'Song 1',
-        artist: 'Artist 1',
-        album: 'Album 1',
-        url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
-      },
-      {
-        id: 2,
-        title: 'Song 2',
-        artist: 'Artist 2',
-        album: 'Album 2',
-        url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
-      },
-      {
-        id: 3,
-        title: 'Song 3',
-        artist: 'Artist 3',
-        album: 'Album 3',
-        url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
-      },
-    ]);
+    return Promise.resolve(
+      [
+        {
+          title: 'Águas de março',
+          artist: 'Tom Jobim',
+          album: 'Tom Jobim',
+          url: 'aguas-de-marco_-_tom-jobim.mp3',
+        },
+        {
+          title: 'Bohemian Rhapsody',
+          artist: 'Queen',
+          album: 'Queen',
+          url: 'bohemian-rhapsody_-_queen.mp3',
+        },
+        {
+          title: "Gangster's Paradise",
+          artist: 'Coolio',
+          album: 'Coolio',
+          url: 'coolio_-_gangsta-s-paradise.mp3',
+        },
+      ].map((song, id) => ({ ...song, id }))
+    );
+  }
+
+  async getSong(id: number) {
+    return this.getSongs().then((songs) =>
+      songs.find((song) => {
+        console.log(id, song.id);
+        
+        return song.id === id
+      })
+    );
   }
 
   getData(): { message: string } {
