@@ -33,7 +33,6 @@ export class PlaylistStore extends DataStore<HomeState> {
             title: 'Song 1',
             artist: 'Artist 1',
             album: 'Album 1',
-            duration: 123,
             url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
           },
           {
@@ -41,7 +40,6 @@ export class PlaylistStore extends DataStore<HomeState> {
             title: 'Song 2',
             artist: 'Artist 2',
             album: 'Album 2',
-            duration: 234,
             url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
           },
           {
@@ -49,7 +47,6 @@ export class PlaylistStore extends DataStore<HomeState> {
             title: 'Song 3',
             artist: 'Artist 3',
             album: 'Album 3',
-            duration: 345,
             url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
           },
         ],
