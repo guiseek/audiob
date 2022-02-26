@@ -14,7 +14,11 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
-    "paths": {}
+    "paths": {
+      "@audiob/web/shared/data-access/store": [
+        "libs/web/shared/data-access/store/src/index.ts"
+      ]
+    }
   },
   "exclude": ["node_modules", "tmp"]
 }
