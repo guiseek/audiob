@@ -3,6 +3,7 @@
   "projects": {
     "audiob": "apps/audiob",
     "audiob-e2e": "apps/audiob-e2e",
+    "web-shared-data-access-models": "libs/web/shared/data-access/models",
     "web-shared-data-access-store": "libs/web/shared/data-access/store"
   }
 }
