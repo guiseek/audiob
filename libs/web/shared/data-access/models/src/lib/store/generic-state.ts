@@ -1,4 +1,4 @@
-export type GenericStoreStatus = 'pending' | 'loading' | 'success' | 'error';
+export type GenericStoreStatus = 'pending' | 'loading' | 'loaded' | 'error';
 
 export interface GenericState<T> {
   data: T | null;
