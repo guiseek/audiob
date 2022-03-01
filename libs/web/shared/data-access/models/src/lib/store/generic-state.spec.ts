@@ -1,7 +1,13 @@
-import { GenericState } from './generic-state';
+import { GenericState, GenericStoreStatus } from './generic-state';
+
+class TestStateStore implements GenericState<string> {
+  status: GenericStoreStatus = 'loaded';
+  error: string | null = null;
+  data = 'test'
+}
 
 describe('GenericState', () => {
   it('should create an instance', () => {
-    expect(new GenericState()).toBeTruthy();
+    expect(new TestStateStore()).toBeTruthy();
   });
 });

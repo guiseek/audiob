@@ -1,9 +1,93 @@
-<p>web-home-feature works!</p>
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>
+      {{ currentSong?.title }}
+    </mat-card-title>
+    <mat-card-subtitle>
+      {{ currentSong?.artist }}
+    </mat-card-subtitle>
+  </mat-card-header>
 
-<pre>
-  {{ playlistStore.status$ | async }}
-</pre>
+  <section>
+    <button
+      id="prev"
+      type="button"
+      mat-icon-button
+      aria-label="anterior"
+      [disabled]="!audio.src"
+    >
+      <mat-icon>skip_previous</mat-icon>
+    </button>
+    <button
+      id="play"
+      autofocus
+      mat-fab
+      type="button"
+      aria-label="play"
+      [disabled]="!audio.src"
+      (click)="toggle()"
+    >
+      <mat-icon>{{
+        audio.paused ? 'play_circle' : 'pause_circle_filled'
+      }}</mat-icon>
+    </button>
+    <button
+      type="button"
+      id="next"
+      mat-icon-button
+      aria-label="próxima"
+      [disabled]="!audio.src"
+    >
+      <mat-icon>skip_next</mat-icon>
+    </button>
 
-<pre>
-  {{ playlistStore.data$ | async | json }}
-</pre>
+  </section>
+  
+  <canvas #canvasRef width="300" height="200"></canvas>
+
+  <mat-list>
+    <div mat-subheader>Tempo</div>
+    <mat-list-item>
+      <mat-slider
+        id="time"
+        min="0"
+        thumbLabel
+        [displayWith]="formatTime"
+        (input)="onTimeUpdate($event.value)"
+        [value]="audio.currentTime"
+        [max]="audio.duration"
+        [disabled]="!audio.src"
+      ></mat-slider>
+    </mat-list-item>
+    <div mat-subheader>Volume</div>
+    <mat-list-item>
+      <mat-slider
+        thumbLabel
+        [displayWith]="formatVolume"
+        (input)="onVolumeChange($event.value)"
+        [disabled]="!audio.src"
+        tickInterval="1"
+        id="volume"
+        step="1"
+        min="0"
+        max="100"
+        value="100"
+      ></mat-slider>
+    </mat-list-item>
+  </mat-list>
+
+  <mat-divider></mat-divider>
+
+  <mat-action-list dense>
+    <button
+      mat-list-item
+      *ngFor="let song of playlistStore.data$ | async"
+      (click)="play(song)"
+    >
+      <h3 matLine>{{ song.title }}</h3>
+      <p matLine>
+        {{ song.artist }}
+      </p>
+    </button>
+  </mat-action-list>
+</mat-card>

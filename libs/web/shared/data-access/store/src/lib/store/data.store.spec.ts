@@ -1,8 +1,13 @@
+import { GenericState } from '@audiob/web/shared/data-access/models';
 import { DataStore } from './data.store';
 
-interface UserState {
+interface Profile {
   name: string;
   age: number;
+}
+
+interface UserState extends GenericState<Profile> {
+  id: number
 }
 
 class UserDataStore extends DataStore<UserState> {}
@@ -12,9 +17,14 @@ describe('DataStore', () => {
 
   beforeEach(() => {
     dataStore = new UserDataStore({
-      name: '',
-      age: 0,
-    });
+      id: 1,
+      status: 'loading',
+      error: null,
+      data: {
+        name: '',
+        age: 0,
+      },
+    })
   });
 
   it('should create an instance', () => {

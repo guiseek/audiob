@@ -1,8 +1,7 @@
 import { distinctUntilChanged, map } from 'rxjs/operators';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { GenericState } from '@audiob/web/shared/data-access/models';
 
-export abstract class DataStore<T extends GenericState<unknown>> {
+export abstract class DataStore<T> {
   private state$: BehaviorSubject<T>;
 
   protected get state(): T {

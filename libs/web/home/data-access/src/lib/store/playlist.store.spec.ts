@@ -1,7 +1,7 @@
-import { Playlist } from './playlist.store';
+import { PlaylistStore } from './playlist.store';
 
-describe('Playlist', () => {
+describe('PlaylistStore', () => {
   it('should create an instance', () => {
-    expect(new Playlist()).toBeTruthy();
+    expect(new PlaylistStore()).toBeTruthy();
   });
 });
