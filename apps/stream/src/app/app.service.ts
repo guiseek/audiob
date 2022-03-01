@@ -30,11 +30,7 @@ export class AppService {
 
   async getSong(id: number) {
     return this.getSongs().then((songs) =>
-      songs.find((song) => {
-        console.log(id, song.id);
-        
-        return song.id === id
-      })
+      songs.find((song) => song.id === id)
     );
   }
 
