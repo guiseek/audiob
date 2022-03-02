@@ -1,4 +1,5 @@
 import {
+  OnInit,
   Component,
   ViewChild,
   ElementRef,
@@ -15,34 +16,44 @@ import { Song } from '@audiob/web/shared/data-access/models';
   styleUrls: ['./web-home-feature.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class WebHomeFeatureComponent implements AfterViewInit {
+export class WebHomeFeatureComponent implements OnInit, AfterViewInit {
   @ViewChild('canvasRef')
   canvasRef!: ElementRef<HTMLCanvasElement>;
   canvasEl!: HTMLCanvasElement;
 
-  barsColor = '#ff408180';
+  color = {
+    primary: '#673ab780',
+    accent: '#ffd74080',
+  };
 
   audio = new Audio();
 
   currentSong: Song | null = null;
 
-  private _currentTime = 0;
-
-  set currentTime(value: number) {
-    this._currentTime = value;
-    this.audio.currentTime = value;
-  }
-
-  get currentTime() {
-    return this._currentTime;
-  }
-
   constructor(readonly playlistStore: PlaylistStore) {}
 
-  ngAfterViewInit(): void {
+  ngOnInit() {
     this.playlistStore.loadSongs();
+  }
 
+  ngAfterViewInit() {
     this.canvasEl = this.canvasRef.nativeElement;
+
+    this.audio.onended = () => {
+      this.playlistStore.nextSong();
+    };
+
+    this.playlistStore.selectedSong$.subscribe((song) => {
+      if (song) {
+        if (!this.audio.src) {
+          this.afterViewTouched();
+        }
+
+        this.audio.src = `assets/songs/${song.url}`;
+        this.audio.load();
+        this.audio.play();
+      }
+    });
   }
 
   afterViewTouched() {
@@ -68,7 +79,7 @@ export class WebHomeFeatureComponent implements AfterViewInit {
 
       if (canvasCtx) {
         canvasCtx.clearRect(0, 0, this.canvasEl.width, this.canvasEl.height);
-        canvasCtx.fillStyle = this.barsColor;
+        canvasCtx.fillStyle = this.color.primary;
 
         bars = 300;
 
@@ -92,22 +103,6 @@ export class WebHomeFeatureComponent implements AfterViewInit {
     };
   }
 
-  setSong(song: Song) {
-    this.audio.src = `assets/songs/${song.url}`;
-
-    if (this.currentSong === null) {
-      this.afterViewTouched();
-    }
-
-    this.currentSong = song;
-    this.audio.load();
-  }
-
-  play(song: Song) {
-    this.setSong(song);
-    this.audio.play();
-  }
-
   toggle() {
     if (this.audio.paused) {
       this.audio.play();
@@ -128,7 +123,7 @@ export class WebHomeFeatureComponent implements AfterViewInit {
 
   onTimeUpdate(value: number | null = 0) {
     if (typeof value === 'number') {
-      this.currentTime = value;
+      this.audio.currentTime = value;
     }
   }
 

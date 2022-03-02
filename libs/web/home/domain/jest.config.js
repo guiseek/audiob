@@ -1,6 +1,6 @@
 module.exports = {
-  displayName: 'web-shared-data-access-stream',
-  preset: '../../../../../jest.preset.js',
+  displayName: 'web-home-domain',
+  preset: '../../../../jest.preset.js',
   globals: {
     'ts-jest': {
       tsconfig: '<rootDir>/tsconfig.spec.json',
@@ -10,6 +10,5 @@ module.exports = {
     '^.+\\.[tj]sx?$': 'ts-jest',
   },
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx'],
-  coverageDirectory:
-    '../../../../../coverage/libs/web/shared/data-access/stream',
+  coverageDirectory: '../../../../coverage/libs/web/home/domain',
 };

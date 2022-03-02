@@ -1,5 +1,7 @@
 import { GenericState, Song } from '@audiob/web/shared/data-access/models';
 import { DataStore } from '@audiob/web/shared/data-access/store';
+import { PlaylistRepository } from '@audiob/web/home/domain';
+import { catchError, take } from 'rxjs';
 
 interface HomeState extends GenericState<Song[]> {
   selectedSong: Song | null;
@@ -12,7 +14,9 @@ export class PlaylistStore extends DataStore<HomeState> {
 
   data$ = this.select((state) => state.data);
 
-  constructor() {
+  selectedSong$ = this.select((state) => state.selectedSong);
+
+  constructor(private repository: PlaylistRepository) {
     super({
       selectedSong: null,
       status: 'loading',
@@ -22,53 +26,62 @@ export class PlaylistStore extends DataStore<HomeState> {
   }
 
   loadSongs() {
-    fetch('/api/songs')
-      .then((res) => {
-        if (!res.ok || !res.body) {
-          throw new Error(res.statusText);
-        }
+    this.setState({ status: 'pending' });
 
-        return res.json();
-      })
-      .then((songs) => {
-        this.setState({
-          status: 'loaded',
-          data: songs,
-        });
-      })
-      .catch((err) => {
-        this.setState({
-          status: 'error',
-          error: err,
-        });
-      });
+    this.repository
+      .findAll()
+      .pipe(
+        take(1),
+        catchError((err) => {
+          if (err) this.setError(err);
+          throw err;
+        })
+      )
+      .subscribe((songs) => this.setSongs(songs));
+  }
+
+  nextSong() {
+    let { id = 0 } = this.state.selectedSong ?? {};
+
+    if (id < this.state.data.length - 1) id++;
+    else id = 0;
+
+    this.setSong(this.state.data[id]);
+  }
+
+  prevSong() {
+    let { id = 0 } = this.state.selectedSong ?? {};
+
+    if (id > 0) id--;
+    else id = this.state.data.length - 1;
+
+    this.setSong(this.state.data[id]);
   }
 
   loadSong(id: number) {
-    fetch(`/api/songs/${id}`)
-      .then((res) => {
-        if (!res.ok || !res.body) {
-          throw new Error(res.statusText);
-        }
+    this.setState({ status: 'pending' });
 
-        return res.json();
-      })
-      .then((song) => {
-        this.setState({
-          selectedSong: song,
-        });
-      })
-      .catch((err) => {
-        this.setState({
-          status: 'error',
-          error: err,
-        });
-      });
+    this.repository
+      .findOne(id)
+      .pipe(
+        take(1),
+        catchError((err) => {
+          if (err) this.setError(err);
+          throw err;
+        })
+      )
+      .subscribe((song) => this.setSong(song));
   }
 
-  selectSong(song: Song) {
-    this.setState({
-      selectedSong: song,
-    });
+  private setSongs(songs: Song[]) {
+    this.setState({ status: 'loaded', data: songs });
+  }
+
+  private setSong(song: Song) {
+    this.setState({ status: 'loaded', selectedSong: song });
+  }
+
+  private setError({ message }: Error) {
+    this.setState({ status: 'error', error: message });
   }
 }

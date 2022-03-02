@@ -1,9 +1,9 @@
 import {
-  Controller,
-  Headers,
+  Res,
   Get,
   Param,
-  Res,
+  Headers,
+  Controller,
   NotFoundException,
 } from '@nestjs/common';
 
@@ -26,15 +26,12 @@ export class AppController {
     return this.appService.getSong(+id);
   }
 
-  @Get('stream/:id')
   async getStream(
     @Param('id') id: string,
     @Headers('range') range: string,
     @Res() res: Response
   ) {
     const song = await this.appService.getSong(+id);
-
-    console.log(range);
 
     if (!song) {
       throw new NotFoundException('Song not found');
@@ -45,8 +42,6 @@ export class AppController {
 
     const { size } = statSync(path);
     const chunk = 10 ** 6;
-
-    console.log(res);
     
     const start = +range.replace('/\\D/g', '');
     const end = Math.min(start + chunk, size - 1);

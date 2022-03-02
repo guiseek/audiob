@@ -1,10 +1,10 @@
 <mat-card>
-  <mat-card-header>
+  <mat-card-header *ngIf="playlistStore.selectedSong$ | async as song">
     <mat-card-title>
-      {{ currentSong?.title }}
+      {{ song.title }}
     </mat-card-title>
     <mat-card-subtitle>
-      {{ currentSong?.artist }}
+      {{ song.artist }}
     </mat-card-subtitle>
   </mat-card-header>
 
@@ -15,8 +15,9 @@
       mat-icon-button
       aria-label="anterior"
       [disabled]="!audio.src"
+      (click)="playlistStore.prevSong()"
     >
-      <mat-icon>skip_previous</mat-icon>
+      <mat-icon color="primary">skip_previous</mat-icon>
     </button>
     <button
       id="play"
@@ -27,7 +28,7 @@
       [disabled]="!audio.src"
       (click)="toggle()"
     >
-      <mat-icon>{{
+      <mat-icon color="primary">{{
         audio.paused ? 'play_circle' : 'pause_circle_filled'
       }}</mat-icon>
     </button>
@@ -37,12 +38,12 @@
       mat-icon-button
       aria-label="próxima"
       [disabled]="!audio.src"
+      (click)="playlistStore.nextSong()"
     >
-      <mat-icon>skip_next</mat-icon>
+      <mat-icon color="primary">skip_next</mat-icon>
     </button>
-
   </section>
-  
+
   <canvas #canvasRef width="300" height="200"></canvas>
 
   <mat-list>
@@ -78,16 +79,17 @@
 
   <mat-divider></mat-divider>
 
-  <mat-action-list dense>
-    <button
-      mat-list-item
+  <mat-selection-list dense>
+    <mat-list-option
       *ngFor="let song of playlistStore.data$ | async"
-      (click)="play(song)"
+      (click)="playlistStore.loadSong(song.id)"
+      [disabled]="song.id === (playlistStore.selectedSong$ | async)?.id"
+      [selected]="song.id === (playlistStore.selectedSong$ | async)?.id"
     >
       <h3 matLine>{{ song.title }}</h3>
       <p matLine>
         {{ song.artist }}
       </p>
-    </button>
-  </mat-action-list>
+    </mat-list-option>
+  </mat-selection-list>
 </mat-card>

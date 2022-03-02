@@ -1,0 +1,23 @@
+{
+  "root": "libs/web/home/domain",
+  "sourceRoot": "libs/web/home/domain/src",
+  "projectType": "library",
+  "targets": {
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["libs/web/home/domain/**/*.ts"]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/web/home/domain"],
+      "options": {
+        "jestConfig": "libs/web/home/domain/jest.config.js",
+        "passWithNoTests": true
+      }
+    }
+  },
+  "tags": ["type:domain", "scope:web", "domain:home"]
+}

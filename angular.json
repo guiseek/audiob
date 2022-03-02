@@ -5,9 +5,9 @@
     "audiob-e2e": "apps/audiob-e2e",
     "stream": "apps/stream",
     "web-home-data-access": "libs/web/home/data-access",
+    "web-home-domain": "libs/web/home/domain",
     "web-home-feature": "libs/web/home/feature",
     "web-shared-data-access-models": "libs/web/shared/data-access/models",
-    "web-shared-data-access-store": "libs/web/shared/data-access/store",
-    "web-shared-data-access-stream": "libs/web/shared/data-access/stream"
+    "web-shared-data-access-store": "libs/web/shared/data-access/store"
   }
 }

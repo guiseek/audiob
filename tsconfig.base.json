@@ -18,15 +18,13 @@
       "@audiob/web/home/data-access": [
         "libs/web/home/data-access/src/index.ts"
       ],
+      "@audiob/web/home/domain": ["libs/web/home/domain/src/index.ts"],
       "@audiob/web/home/feature": ["libs/web/home/feature/src/index.ts"],
       "@audiob/web/shared/data-access/models": [
         "libs/web/shared/data-access/models/src/index.ts"
       ],
       "@audiob/web/shared/data-access/store": [
         "libs/web/shared/data-access/store/src/index.ts"
-      ],
-      "@audiob/web/shared/data-access/stream": [
-        "libs/web/shared/data-access/stream/src/index.ts"
       ]
     }
   },
